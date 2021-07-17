@@ -12,7 +12,7 @@ framework:
         cookie_samesite: lax
         storage_factory_id: session.storage.factory.native
 
-    serializer: { enable_annotations: true }
+    serializer: { enable_attributes: true }
     #esi: true
     #fragments: true
     php_errors:

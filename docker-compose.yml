@@ -1,0 +1,64 @@
+services:
+  php-fpm:
+    container_name: php_skeleton_php
+    build:
+      context: .docker/php
+    environment:
+      - APP_PATH=/var/www
+    depends_on:
+      - db
+    volumes:
+      - ./:/var/www/
+
+  db:
+    image: postgres
+    container_name: php_skeleton_db
+    restart: always
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_USER: php_skeleton
+      POSTGRES_PASSWORD: skeleton123
+      POSTGRES_DATABASE: php_skeleton
+
+  adminer:
+    container_name: php_skeleton_adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  nginx:
+    container_name: php_skeleton_nginx
+    build:
+      context: .docker/nginx
+    volumes:
+      - ./:/var/www/
+      - .docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - .docker/nginx/sites/:/etc/nginx/sites-available
+      - .docker/nginx/conf.d/:/etc/nginx/conf.d
+      - .docker/logs:/var/log
+    depends_on:
+      - php-fpm
+    ports:
+      - "80:80"
+      - "443:443"
+
+###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+
+volumes:
+###> doctrine/doctrine-bundle ###
+  database_data:
+###< doctrine/doctrine-bundle ###

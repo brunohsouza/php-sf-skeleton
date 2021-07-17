@@ -18,3 +18,11 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+./idea/
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
+/.docker/logs/
+/logs/
