@@ -79,8 +79,7 @@
         }
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest"
-        ,
+        "roave/security-advisories": "dev-latest",
         "phpstan/phpstan": "^1.12",
         "phpunit/phpunit": "^11.4",
         "symfony/browser-kit": "^7.1",
