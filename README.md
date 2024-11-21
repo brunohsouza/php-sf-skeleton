@@ -1,2 +1,15 @@
-# php-sf-skeleton
-This is a skeleton project based in PHP 8.4 and Symfony structure.
+# PHP-SF-Skeleton
+This is a skeleton project based on PHP 8.4 and Symfony structure.
+
+# Architecture
+
+This project used a docker image based on PHP 8.4. For more details about the image, check https://github.com/shinsenter/php.
+
+# Containers in this repository
+
+![docker containers](public/images/img.png)
+
+
+
+
+
