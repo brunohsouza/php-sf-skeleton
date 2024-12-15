@@ -4,17 +4,18 @@ FROM shinsenter/php:8.4-fpm
 RUN apt-get update && apt-get install -y git && \
     apt-get install -y libssl-dev zlib1g-dev curl git unzip libxml2-dev libpq-dev libzip-dev
 
-# RUN phpaddmod imagick xdebug
-#    docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
-#    docker-php-ext-install -j$(nproc) zip opcache intl pdo_pgsql pgsql bcmath && \
-#    docker-php-ext-enable apcu pdo_pgsql sodium && \
-#    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-#    pecl install xdebug && \
-#    docker-php-ext-enable xdebug
-
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Create user www-data and set permissions
+USER root
+RUN usermod -u 1000 www-data
+RUN mkdir -p var/cache/prod var/cache/dev var/cache/test var/log \
+   && chown -R www-data:www-data var/ \
+   && chmod -R ug+rwX var/
+
+# Set working directory
 WORKDIR /var/www
 
+# Expose port 9000 and start php-fpm server
 EXPOSE 9000
